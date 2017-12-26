@@ -40,6 +40,7 @@ type IndexRegistry struct {
 //New creates indexRegistry instance
 func New() (NewRegistry *IndexRegistry) {
 	NewRegistry = &IndexRegistry{}
+	NewRegistry.indexNameMapping = make(map[string]bleve.Index)
 	return
 }
 
@@ -48,9 +49,6 @@ func (I *IndexRegistry) RegisterIndexName(name string, idx bleve.Index) {
 	I.indexNameMappingLock.Lock()
 	defer I.indexNameMappingLock.Unlock()
 
-	if I.indexNameMapping == nil {
-		I.indexNameMapping = make(map[string]bleve.Index)
-	}
 	I.indexNameMapping[name] = idx
 }
 
