@@ -91,11 +91,5 @@ func main() {
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
 
-	//index API
-	e.GET("/:"+indexNameStr, indexModules.GetIndexHandler)
-
-	//cat API
-	e.GET("/_cat/indices", indexModules.GetIndexListHandler)
-
 	e.Logger.Fatal(e.Start(":1323"))
 }

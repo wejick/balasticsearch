@@ -8,8 +8,8 @@ import (
 	"github.com/blevesearch/bleve"
 )
 
-//CreateIndex instantiates and index
-func (I *Index) CreateIndex(name string, mappingJSON string) (err error) {
+//Create instantiates and index
+func (I *Index) Create(name string, mappingJSON string) (err error) {
 	//Do nothing if index with the same name exist
 	if I.indexRegistry.IndexByName(name) != nil {
 		err = errors.New("[ERROR] Index is already exist : " + name)

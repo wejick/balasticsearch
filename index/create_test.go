@@ -38,7 +38,7 @@ func TestIndex_CreateIndex(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if err := I.CreateIndex(tt.args.name, tt.args.mappingJSON); (err != nil) != tt.wantErr {
+			if err := I.Create(tt.args.name, tt.args.mappingJSON); (err != nil) != tt.wantErr {
 				t.Errorf("Index.CreateIndex() error = %v, wantErr %v", err, tt.wantErr)
 			}
 		})
