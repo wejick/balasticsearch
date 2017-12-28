@@ -9,7 +9,8 @@ import (
 	"github.com/blevesearch/bleve"
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
-	index "github.com/wejick/balasticsearch/index"
+	bHTTP "github.com/wejick/balasticsearch/http"
+	"github.com/wejick/balasticsearch/index"
 	"github.com/wejick/balasticsearch/registry"
 )
 
@@ -22,6 +23,8 @@ var (
 	e             *echo.Echo // echo instance
 	indexRegistry *registry.IndexRegistry
 	indexModules  *index.Index
+
+	balasticHTTP *bHTTP.Handler
 )
 
 func initIndexRegistry(dataDir string) (err error) {
@@ -76,6 +79,11 @@ func initModules() (err error) {
 		return errors.New("[ERROR] couldn't initialize Index module :" + err.Error())
 	}
 
+	balasticHTTP = bHTTP.New(
+		bHTTP.UseIndexNameIdentifier(indexNameStr),
+		bHTTP.UseIndex(indexModules),
+	)
+
 	return
 }
 
@@ -90,6 +98,8 @@ func main() {
 
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
+
+	e.POST("/:"+indexNameStr, balasticHTTP.CreateIndex)
 
 	e.Logger.Fatal(e.Start(":1323"))
 }
