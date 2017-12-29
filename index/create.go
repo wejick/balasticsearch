@@ -20,7 +20,7 @@ func (I *Index) Create(name string, mappingJSON string) (err error) {
 	//Try to get index mapping
 	if mappingJSON != "" {
 		//TODO we can do preprocessing here to make the mapping resemble elasticsearch mapping if it desirable at the future
-		json.Unmarshal([]byte(mappingJSON), &indexMapping)
+		err = json.Unmarshal([]byte(mappingJSON), &indexMapping)
 		if err != nil {
 			err = fmt.Errorf("error parsing index mapping: %v", err)
 			return

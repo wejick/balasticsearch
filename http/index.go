@@ -25,3 +25,15 @@ func (H *Handler) CreateIndex(context echo.Context) (err error) {
 
 	return
 }
+
+//GetIndex handle http request for index information
+func (H *Handler) GetIndex(context echo.Context) (err error) {
+	indexName := context.Param(H.indexNameIdentifier)
+	infos, err := H.indexModules.Get(indexName)
+	if err != nil {
+		context.Response().Status = 404
+	}
+
+	err = context.JSON(200, infos)
+	return
+}

@@ -100,6 +100,7 @@ func main() {
 	e.Use(middleware.Recover())
 
 	e.POST("/:"+indexNameStr, balasticHTTP.CreateIndex)
+	e.GET("/:"+indexNameStr, balasticHTTP.GetIndex)
 
 	e.Logger.Fatal(e.Start(":1323"))
 }

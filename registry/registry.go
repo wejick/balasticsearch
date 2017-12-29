@@ -57,9 +57,6 @@ func (I *IndexRegistry) UnregisterIndexByName(name string) bleve.Index {
 	I.indexNameMappingLock.Lock()
 	defer I.indexNameMappingLock.Unlock()
 
-	if I.indexNameMapping == nil {
-		return nil
-	}
 	rv := I.indexNameMapping[name]
 	if rv != nil {
 		delete(I.indexNameMapping, name)
@@ -135,6 +132,8 @@ func (I *IndexRegistry) UpdateAlias(alias string, add, remove []string) error {
 			removeIndexes[i] = removeIndex
 		}
 		indexAlias.Swap(addIndexes, removeIndexes)
+
+		delete(I.indexNameMapping, alias)
 	}
 	return nil
 }

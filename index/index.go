@@ -6,6 +6,12 @@ import (
 	"github.com/wejick/balasticsearch/registry"
 )
 
+//IIndex interface for index
+type IIndex interface {
+	Get() (map[string]Info, error)
+	Create() error
+}
+
 //Index main struct
 type Index struct {
 	dataDirectory string
