@@ -47,10 +47,10 @@ func TestIndex_CreateIndex(t *testing.T) {
 			wantErr: false,
 		},
 		{
-			name: "index2 wrong",
+			name: "index3 invalid json mapping",
 			args: args{
-				name:        "index2",
-				mappingJSON: "//\\\\\\asdf-",
+				name:        "index3",
+				mappingJSON: "{}-",
 			},
 			wantErr: true,
 		},
