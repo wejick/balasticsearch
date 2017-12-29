@@ -17,6 +17,7 @@ package registry
 
 import (
 	"fmt"
+	"sort"
 	"sync"
 
 	"github.com/blevesearch/bleve"
@@ -27,7 +28,7 @@ type Registry interface {
 	RegisterIndexName(name string, idx bleve.Index)
 	UnregisterIndexByName(name string) bleve.Index
 	IndexByName(name string) bleve.Index
-	IndexNames() []string
+	GetIndexNames() []string
 	UpdateAlias(alias string, add, remove []string) error
 }
 
@@ -72,17 +73,15 @@ func (I *IndexRegistry) IndexByName(name string) bleve.Index {
 	return I.indexNameMapping[name]
 }
 
-//IndexNames gets the list of index names
-func (I *IndexRegistry) IndexNames() []string {
+//GetIndexNames gets the list of index names
+func (I *IndexRegistry) GetIndexNames() (rv []string) {
 	I.indexNameMappingLock.RLock()
 	defer I.indexNameMappingLock.RUnlock()
 
-	rv := make([]string, len(I.indexNameMapping))
-	count := 0
 	for k := range I.indexNameMapping {
-		rv[count] = k
-		count++
+		rv = append(rv, k)
 	}
+	sort.Strings(rv)
 	return rv
 }
 
@@ -133,7 +132,6 @@ func (I *IndexRegistry) UpdateAlias(alias string, add, remove []string) error {
 		}
 		indexAlias.Swap(addIndexes, removeIndexes)
 
-		delete(I.indexNameMapping, alias)
 	}
 	return nil
 }
