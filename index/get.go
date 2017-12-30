@@ -16,13 +16,12 @@ type (
 
 //Get get index information
 func (I *Index) Get(name string) (infos map[string]Info, err error) {
+	index := I.indexRegistry.IndexByName(name)
 	//Do nothing if index with the same name exist
-	if I.indexRegistry.IndexByName(name) == nil {
+	if index == nil {
 		err = errors.New("[ERROR] No index found : " + name)
 		return
 	}
-
-	index := I.indexRegistry.IndexByName(name)
 
 	infos = make(map[string]Info, 1)
 	infos[name] = Info{

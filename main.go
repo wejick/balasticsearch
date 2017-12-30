@@ -99,6 +99,7 @@ func main() {
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
 
+	//index API
 	e.POST("/:"+indexNameStr, balasticHTTP.CreateIndex)
 	e.GET("/:"+indexNameStr, balasticHTTP.GetIndex)
 

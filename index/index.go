@@ -10,9 +10,10 @@ import (
 type IIndex interface {
 	Get() (map[string]Info, error)
 	Create() error
+	UpdateAlias(string, string) error
 }
 
-//Index main struct
+//Index is the entry point for all index operation like creating, deleting and updating alias
 type Index struct {
 	dataDirectory string
 	indexRegistry *registry.IndexRegistry
